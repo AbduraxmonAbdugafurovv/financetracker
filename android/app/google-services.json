@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "429609067222",
+    "project_id": "finance-tracker-230ec",
+    "storage_bucket": "finance-tracker-230ec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429609067222:android:5803209b8bc3476a8e9f77",
+        "android_client_info": {
+          "package_name": "com.Abduraxmon.financetrackerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe_klt69yN-iPXjTsr6MGjA1NuQ_j3_lI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429609067222:android:ce709d16a21569438e9f77",
+        "android_client_info": {
+          "package_name": "com.example.financetracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe_klt69yN-iPXjTsr6MGjA1NuQ_j3_lI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429609067222:android:65e6e83be6fbc8b08e9f77",
+        "android_client_info": {
+          "package_name": "com.example.financetreckerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe_klt69yN-iPXjTsr6MGjA1NuQ_j3_lI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
