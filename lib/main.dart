@@ -1,4 +1,4 @@
-import 'package:financetreckerapp/features/auth/sign_up/sign_up.dart';
+import 'package:financetreckerapp/features/auth/presentation/pages/sign_up.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,12 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-    
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: SignUpPage()
+      home: SignUpPage(),
     );
   }
 }
