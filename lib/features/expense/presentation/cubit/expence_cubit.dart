@@ -1,35 +1,45 @@
+import 'package:financetreckerapp/features/expense/data/expense_data_source.dart';
+import 'package:financetreckerapp/features/expense/data/expense_model.dart';
 import 'package:financetreckerapp/features/expense/domain/expense.dart';
-import 'package:financetreckerapp/features/expense/domain/expense_repository.dart';
 import 'package:financetreckerapp/features/expense/presentation/cubit/expence_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ExpenseCubit extends Cubit<ExpenseState> {
-  final ExpenseRepository repository;
 
-  ExpenseCubit(this.repository) : super(ExpenseInitial());
+class ExpenseCubit extends Cubit<ExpenseState> {
+  final ExpenseRemoteDataSource dataSource;
+
+  ExpenseCubit(this.dataSource) : super(ExpenseInitial());
 
   Future<void> loadExpenses() async {
     emit(ExpenseLoading());
-    try {
-      final expenses = await repository.getExpenses();
-      emit(ExpenseLoaded(expenses));
-    } catch (e) {
-      emit(ExpenseError(e.toString()));
-    }
+    final expenses = await dataSource.getExpenses();
+    emit(ExpenseLoaded(expenses));
   }
 
   Future<void> addExpense(Expense expense) async {
-    await repository.addExpense(expense);
+    await dataSource.addExpense(ExpenseModel(
+      id: expense.id,
+      amount: expense.amount,
+      category: expense.category,
+      date: expense.date,
+      note: expense.note,
+    ));
     loadExpenses();
   }
 
   Future<void> updateExpense(Expense expense) async {
-    await repository.updateExpense(expense);
+    await dataSource.updateExpense(ExpenseModel(
+      id: expense.id,
+      amount: expense.amount,
+      category: expense.category,
+      date: expense.date,
+      note: expense.note,
+    ));
     loadExpenses();
   }
 
   Future<void> deleteExpense(String id) async {
-    await repository.deleteExpense(id);
+    await dataSource.deleteExpense(id);
     loadExpenses();
   }
 }

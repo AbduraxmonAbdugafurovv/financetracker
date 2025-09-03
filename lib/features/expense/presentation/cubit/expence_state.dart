@@ -1,4 +1,3 @@
-
 import 'package:financetreckerapp/features/expense/domain/expense.dart';
 
 abstract class ExpenseState {}
@@ -11,8 +10,7 @@ class ExpenseLoaded extends ExpenseState {
   final List<Expense> expenses;
   ExpenseLoaded(this.expenses);
 }
-
 class ExpenseError extends ExpenseState {
-  final String message;
-  ExpenseError(this.message);
+  final String e;
+  ExpenseError(this.e);
 }

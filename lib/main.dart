@@ -1,6 +1,7 @@
 import 'package:financetreckerapp/features/auth/data/auth_data_source.dart';
 import 'package:financetreckerapp/features/auth/presentation/cubit/cubit.dart';
 import 'package:financetreckerapp/features/auth/presentation/pages/sign_in.dart';
+import 'package:financetreckerapp/features/expense/data/expense_data_source.dart';
 import 'package:financetreckerapp/features/expense/data/repository_impl.dart';
 import 'package:financetreckerapp/features/expense/domain/expense_repository.dart';
 import 'package:financetreckerapp/features/expense/presentation/cubit/expence_cubit.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => AuthCubit(AuthRepository(fb.FirebaseAuth.instance)),
         ),
-        BlocProvider(create: (_) => ExpenseCubit(FirestoreExpenseRepository())),
+        BlocProvider(create: (_) => ExpenseCubit(ExpenseRemoteDataSource())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

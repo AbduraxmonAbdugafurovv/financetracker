@@ -1,9 +1,8 @@
-import 'package:financetreckerapp/features/expense/domain/expense.dart';
 import 'package:financetreckerapp/features/expense/presentation/cubit/expence_cubit.dart';
 import 'package:financetreckerapp/features/expense/presentation/cubit/expence_state.dart';
+import 'package:financetreckerapp/features/expense/presentation/widgets/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class ExpensePage extends StatelessWidget {
   const ExpensePage({super.key});
@@ -20,29 +19,40 @@ class ExpensePage extends StatelessWidget {
             return ListView.builder(
               itemCount: state.expenses.length,
               itemBuilder: (context, index) {
-                final expense = state.expenses[index];
+                final exp = state.expenses[index];
                 return ListTile(
-                  title: Text("${expense.amount} - ${expense.category}"),
-                  subtitle: Text(expense.note),
+                  title: Text("${exp.amount} - ${exp.category}"),
+                  subtitle: Text(exp.note),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => ExpenseForm(expense: exp),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          context.read<ExpenseCubit>().deleteExpense(exp.id);
+                        },
+                      ),
+                    ],
+                  ),
                 );
               },
             );
-          } else {
-            return const Center(child: Text("Xarajatlar yo'q"));
           }
+          return const Center(child: Text("Ma’lumot yo‘q"));
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<ExpenseCubit>().addExpense(
-                Expense(
-                  id: DateTime.now().toString(),
-                  amount: 20000,
-                  category: "Oziq-ovqat",
-                  date: DateTime.now(),
-                  note: "Non va sut",
-                ),
-              );
+          showDialog(context: context, builder: (_) => const ExpenseForm());
         },
         child: const Icon(Icons.add),
       ),

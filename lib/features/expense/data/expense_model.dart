@@ -1,5 +1,4 @@
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:financetreckerapp/features/expense/domain/expense.dart';
 
 class ExpenseModel extends Expense {
@@ -11,23 +10,24 @@ class ExpenseModel extends Expense {
     required super.note,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'amount': amount,
-      'category': category,
-      'date': date.toIso8601String(),
-      'note': note,
-    };
+  factory ExpenseModel.fromJson(Map<String, dynamic> json, String id) {
+    return ExpenseModel(
+      id: id,
+      amount: json['amount'],
+      category: json['category'],
+      date: json['date'] is Timestamp
+          ? (json['date'] as Timestamp).toDate()
+          : DateTime.parse(json['date'] as String),
+      note: json['note'],
+    );
   }
 
-  factory ExpenseModel.fromMap(Map<String, dynamic> map) {
-    return ExpenseModel(
-      id: map['id'],
-      amount: (map['amount'] as num).toDouble(),
-      category: map['category'],
-      date: DateTime.parse(map['date']),
-      note: map['note'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      "amount": amount,
+      "category": category,
+      "date": date,
+      "note": note,
+    };
   }
 }
