@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:financetreckerapp/features/expense/data/expense_model.dart';
+import 'package:financetreckerapp/features/expense/data/expense.dart';
 
 class ExpenseRemoteDataSource {
   final _db = FirebaseFirestore.instance.collection("expenses");
 
   Future<void> addExpense(ExpenseModel expense) async {
-    await _db.add(expense.toJson());
+    await _db.doc(expense.id).set(expense.toJson());
   }
 
   Future<List<ExpenseModel>> getExpenses() async {

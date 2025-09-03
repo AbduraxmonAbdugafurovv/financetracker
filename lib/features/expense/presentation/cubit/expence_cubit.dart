@@ -1,5 +1,5 @@
 import 'package:financetreckerapp/features/expense/data/expense_data_source.dart';
-import 'package:financetreckerapp/features/expense/data/expense_model.dart';
+import 'package:financetreckerapp/features/expense/data/expense.dart';
 import 'package:financetreckerapp/features/expense/domain/expense.dart';
 import 'package:financetreckerapp/features/expense/presentation/cubit/expence_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
