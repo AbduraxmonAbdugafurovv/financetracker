@@ -38,7 +38,7 @@ class _SignInPageState extends State<SignUpPage> {
                 );
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ExpensePage()),
+                  MaterialPageRoute(builder: (context) => HomePage()),
                 );
                 // 🔹 Bu joyda Home page ga navigate qilish mumkin
               }
