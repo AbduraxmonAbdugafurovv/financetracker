@@ -1,7 +1,7 @@
-
 import 'package:financetreckerapp/features/auth/data/auth_data_source.dart';
 import 'package:financetreckerapp/features/auth/presentation/cubit/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository repository;
   AuthCubit(this.repository) : super(AuthInitial());
@@ -23,6 +23,15 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthAuthenticated(user));
     } else {
       emit(AuthError("Sign up failed"));
+    }
+  }
+
+  Future<void> checkAuth() async {
+    final user = await repository.getCurrentUser();
+    if (user != null) {
+      emit(AuthAuthenticated(user));
+    } else {
+      emit(AuthUnauthenticated());
     }
   }
 }

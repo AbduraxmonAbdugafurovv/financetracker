@@ -30,8 +30,9 @@ class AuthRepository {
         password: password,
       );
       final fb.User? fbUser = result.user;
-      if (fbUser != null)
+      if (fbUser != null) {
         return UserModel(uid: fbUser.uid, email: fbUser.email!);
+      }
     } catch (e) {
       return null;
     }
@@ -40,5 +41,13 @@ class AuthRepository {
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
+  }
+
+  Future<UserModel?> getCurrentUser() async {
+    final fb.User? fbUser = _firebaseAuth.currentUser;
+    if (fbUser != null) {
+      return UserModel(uid: fbUser.uid, email: fbUser.email!);
+    }
+    return null;
   }
 }

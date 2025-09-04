@@ -33,9 +33,9 @@ class _SignInPageState extends State<SignInPage> {
                 ).showSnackBar(SnackBar(content: Text(state.message)));
               }
               if (state is AuthAuthenticated) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Xush kelibsiz, ${state.user.email}")),
-                );
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(content: Text("Xush kelibsiz, ${state.user.email}")),
+                // );
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),

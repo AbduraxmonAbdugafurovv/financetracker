@@ -33,14 +33,14 @@ class _SignInPageState extends State<SignUpPage> {
                 ).showSnackBar(SnackBar(content: Text(state.message)));
               }
               if (state is AuthAuthenticated) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Xush kelibsiz, ${state.user.email}")),
-                );
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(content: Text("Xush kelibsiz, ${state.user.email}")),
+                // );
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
                 );
-                // 🔹 Bu joyda Home page ga navigate qilish mumkin
+                //
               }
             },
             builder: (context, state) {
@@ -87,7 +87,7 @@ class _SignInPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  /// SIGN IN BUTTON
+                  /// Sign up BUTTON
                   if (state is AuthLoading)
                     const CircularProgressIndicator()
                   else

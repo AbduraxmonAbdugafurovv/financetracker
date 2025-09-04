@@ -1,5 +1,6 @@
 import 'package:financetreckerapp/features/expense/presentation/pages/expenses.dart';
 import 'package:financetreckerapp/features/expense/presentation/pages/statistics_page.dart';
+import 'package:financetreckerapp/features/profile/presentation/page/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
-  final _pages = const [ExpensesPage(), StatisticsPage()];
+  final _pages = const [ExpensesPage(), StatisticsPage(), ProfilePage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.pie_chart),
             label: "Statistika",
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
     );
