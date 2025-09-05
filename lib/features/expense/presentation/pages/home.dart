@@ -1,5 +1,5 @@
 import 'package:financetreckerapp/features/expense/presentation/pages/expenses.dart';
-import 'package:financetreckerapp/features/expense/presentation/pages/statistics_page.dart';
+import 'package:financetreckerapp/features/statistics/presentation/pages/statistics_page.dart';
 import 'package:financetreckerapp/features/profile/presentation/page/profile_page.dart';
 import 'package:flutter/material.dart';
 

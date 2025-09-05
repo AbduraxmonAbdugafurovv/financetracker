@@ -17,12 +17,12 @@ class ExpenseRemoteDataSource {
   //   await _db.doc(expense.id).set(expense.toJson());
   // }
 
-  Future<List<ExpenseModel>> getExpenses() async {
-    final snapshot = await _db.get();
-    return snapshot.docs
-        .map((doc) => ExpenseModel.fromJson(doc.data(), doc.id))
-        .toList();
-  }
+  // Future<List<ExpenseModel>> getExpenses() async {
+  //   final snapshot = await _db.get();
+  //   return snapshot.docs
+  //       .map((doc) => ExpenseModel.fromJson(doc.data(), doc.id))
+  //       .toList();
+  // }
 
   Future getEx() async {
     final userId = FirebaseAuth.instance.currentUser!.uid;

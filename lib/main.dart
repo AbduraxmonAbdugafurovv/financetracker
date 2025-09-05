@@ -6,6 +6,8 @@ import 'package:financetreckerapp/features/expense/data/expense_model.dart';
 import 'package:financetreckerapp/features/expense/presentation/cubit/expence_cubit.dart';
 import 'package:financetreckerapp/features/profile/data/profile_remotedata.dart';
 import 'package:financetreckerapp/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:financetreckerapp/features/statistics/data/statistic_remote_data.dart';
+import 'package:financetreckerapp/features/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,10 +38,15 @@ class MyApp extends StatelessWidget {
           create: (_) =>
               AuthCubit(AuthRepository(fb.FirebaseAuth.instance))..checkAuth(),
         ),
-        BlocProvider(create: (_) => ExpenseCubit(ExpenseRemoteDataSource())..loadExpenses()),
         BlocProvider(
           create: (_) =>
-              ProfileCubit(ProfileRemotedata(fb.FirebaseAuth.instance))..getUser(),
+              ExpenseCubit(ExpenseRemoteDataSource())..loadExpenses(),
+        ),
+        BlocProvider(create: (_) => StatisticCubit(StatisticRemoteDataSource())..loadLast30DaysExpenses()),
+        BlocProvider(
+          create: (_) =>
+              ProfileCubit(ProfileRemotedata(fb.FirebaseAuth.instance))
+                ..getUser(),
         ),
       ],
       child: MaterialApp(

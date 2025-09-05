@@ -39,7 +39,9 @@ class ExpensesPage extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
-                          context.read<ExpenseCubit>().deleteExpense(expense.id);
+                          context.read<ExpenseCubit>().deleteExpense(
+                            expense.id,
+                          );
                         },
                       ),
                     ],
@@ -61,99 +63,109 @@ class ExpensesPage extends StatelessWidget {
       ),
     );
   }
-void _showExpenseDialog(BuildContext context, {Expense? expense}) {
-  final amountController =
-      TextEditingController(text: expense?.amount.toString() ?? "");
-  final noteController = TextEditingController(text: expense?.note ?? "");
-  String category = expense?.category ?? "Oziq-ovqat";
 
-  showDialog(
-    context: context,
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (context, setState) {
-          return AlertDialog(
-            title: Text(expense == null
-                ? "Xarajat qo'shish"
-                : "Xarajatni tahrirlash"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: amountController,
-                  decoration: const InputDecoration(labelText: "Summasi"),
-                  keyboardType: TextInputType.number,
+  void _showExpenseDialog(BuildContext context, {Expense? expense}) {
+    final amountController = TextEditingController(
+      text: expense?.amount.toString() ?? "",
+    );
+    final noteController = TextEditingController(text: expense?.note ?? "");
+    String category = expense?.category ?? "Oziq-ovqat";
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text(
+                expense == null ? "Xarajat qo'shish" : "Xarajatni tahrirlash",
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: amountController,
+                    decoration: const InputDecoration(labelText: "Summasi"),
+                    keyboardType: TextInputType.number,
+                  ),
+                  TextField(
+                    controller: noteController,
+                    decoration: const InputDecoration(labelText: "Izoh"),
+                  ),
+                  DropdownButton<String>(
+                    value: category,
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          category = value;
+                        });
+                      }
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        value: "Oziq-ovqat",
+                        child: Text("Oziq-ovqat"),
+                      ),
+                      DropdownMenuItem(
+                        value: "Transport",
+                        child: Text("Transport"),
+                      ),
+                      DropdownMenuItem(
+                        value: "Ko'ngilochar",
+                        child: Text("Ko'ngilochar"),
+                      ),
+                      DropdownMenuItem(
+                        value: "Kommunal",
+                        child: Text("Kommunal"),
+                      ),
+                      DropdownMenuItem(value: "Boshqa", child: Text("Boshqa")),
+                    ],
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Bekor qilish"),
                 ),
-                TextField(
-                  controller: noteController,
-                  decoration: const InputDecoration(labelText: "Izoh"),
-                ),
-                DropdownButton<String>(
-                  value: category,
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        category = value;
-                      });
+                ElevatedButton(
+                  onPressed: () {
+                    final amount =
+                        double.tryParse(amountController.text) ?? 0.0;
+                    if (expense == null) {
+                      DateTime date = DateTime(2025,8,2);
+                      // Yangi qo‘shish
+                      context.read<ExpenseCubit>().addExpense(
+                        Expense(
+                          id: DateTime.now().millisecondsSinceEpoch.toString(),
+                          amount: amount,
+                          category: category,
+                          date: date,
+                          note: noteController.text,
+                        ),
+                      );
+                    } else {
+                      
+                      // Tahrirlash
+                      context.read<ExpenseCubit>().updateExpense(
+                        Expense(
+                          id: expense.id,
+                          amount: amount,
+                          category: category,
+                          date: expense.date,
+                          note: noteController.text,
+                        ),
+                      );
                     }
+                    Navigator.pop(context);
                   },
-                  items: const [
-                    DropdownMenuItem(
-                        value: "Oziq-ovqat", child: Text("Oziq-ovqat")),
-                    DropdownMenuItem(
-                        value: "Transport", child: Text("Transport")),
-                    DropdownMenuItem(
-                        value: "Ko'ngilochar", child: Text("Ko'ngilochar")),
-                    DropdownMenuItem(
-                        value: "Kommunal", child: Text("Kommunal")),
-                    DropdownMenuItem(value: "Boshqa", child: Text("Boshqa")),
-                  ],
+                  child: const Text("Saqlash"),
                 ),
               ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Bekor qilish"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  final amount =
-                      double.tryParse(amountController.text) ?? 0.0;
-                  if (expense == null) {
-                    // Yangi qo‘shish
-                    context.read<ExpenseCubit>().addExpense(
-                          Expense(
-                            id: DateTime.now()
-                                .millisecondsSinceEpoch
-                                .toString(),
-                            amount: amount,
-                            category: category,
-                            date: DateTime.now(),
-                            note: noteController.text,
-                          ),
-                        );
-                  } else {
-                    // Tahrirlash
-                    context.read<ExpenseCubit>().updateExpense(
-                          Expense(
-                            id: expense.id,
-                            amount: amount,
-                            category: category,
-                            date: expense.date,
-                            note: noteController.text,
-                          ),
-                        );
-                  }
-                  Navigator.pop(context);
-                },
-                child: const Text("Saqlash"),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  );
-}
+            );
+          },
+        );
+      },
+    );
+  }
 }

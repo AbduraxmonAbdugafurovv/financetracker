@@ -1,6 +1,7 @@
-import 'package:financetreckerapp/features/expense/domain/expense.dart';
-import 'package:financetreckerapp/features/expense/presentation/cubit/expence_cubit.dart';
-import 'package:financetreckerapp/features/expense/presentation/cubit/expence_state.dart';
+
+import 'package:financetreckerapp/features/statistics/domain/expense.dart';
+import 'package:financetreckerapp/features/statistics/presentation/cubit/statistic_cubit.dart';
+import 'package:financetreckerapp/features/statistics/presentation/cubit/statistic_state.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,33 +13,35 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Statistika")),
-      body: BlocBuilder<ExpenseCubit, ExpenseState>(
+      body: BlocBuilder<StatisticCubit, StatisticState>(
         builder: (context, state) {
-          if (state is ExpenseLoading) {
+          if (state is StatisticLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is ExpenseLoaded || state is ExpensesLoaded) {
-            final expenses = state is ExpenseLoaded
+          } else if (state is StatisticLoaded || state is StatisticSpotLoaded) {
+            final expenses = state is StatisticSpotLoaded
                 ? state.expenses
-                : (state as ExpensesLoaded).expenses;
+                : (state as StatisticLoaded).expenses;
 
             if (expenses.isEmpty) {
               return const Center(child: Text("Xarajatlar mavjud emas"));
             }
 
             //  1. Oylik jami
-            final total = expenses.fold<double>(
-                0, (sum, e) => sum + e.amount);
+            final total = expenses.fold<double>(0, (sum, e) => sum + e.amount);
 
             //  2. Kategoriya bo‘yicha PieChart
             final categoryData = _groupByCategory(expenses);
 
             //  3. Oxirgi 30 kun line chart
-            final spots = state is ExpensesLoaded ? state.spots : <FlSpot>[];
+            final spots = state is StatisticSpotLoaded ? state.spots : <FlSpot>[];
+            print("SPOTS __ $spots");
+            print("state spot --- ${state}");
 
             //  4. Eng ko‘p kategoriya
             final topCategory = categoryData.entries.isNotEmpty
-                ? categoryData.entries.reduce((a, b) =>
-                    a.value > b.value ? a : b)
+                ? categoryData.entries.reduce(
+                    (a, b) => a.value > b.value ? a : b,
+                  )
                 : null;
 
             return SingleChildScrollView(
@@ -51,7 +54,9 @@ class StatisticsPage extends StatelessWidget {
                     Text(
                       "Oylik jami: ${total.toStringAsFixed(0)} so'm",
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 20),
 
@@ -78,7 +83,9 @@ class StatisticsPage extends StatelessWidget {
                       const Text(
                         "Oxirgi 30 kun grafigi",
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(
                         height: 250,
@@ -90,7 +97,7 @@ class StatisticsPage extends StatelessWidget {
                                 isCurved: true,
                                 barWidth: 3,
                                 belowBarData: BarAreaData(show: true),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -104,13 +111,15 @@ class StatisticsPage extends StatelessWidget {
                         "Eng ko‘p xarajat qilingan kategoriya: "
                         "${topCategory.key} (${topCategory.value.toInt()} so'm)",
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                   ],
                 ),
               ),
             );
-          } else if (state is ExpenseError) {
+          } else if (state is StatisticError) {
             return Center(child: Text("Xato: ${state.e}"));
           }
           return const SizedBox();
