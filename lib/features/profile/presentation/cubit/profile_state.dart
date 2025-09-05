@@ -7,6 +7,7 @@ abstract class ProfileState {}
 class ProfileInitialState extends ProfileState {}
 
 class ProfileLoadingState extends ProfileState {}
+class ProfileLogOutState extends ProfileState {}
 
 class ProfileLoadedState extends ProfileState {
   UserModel user;

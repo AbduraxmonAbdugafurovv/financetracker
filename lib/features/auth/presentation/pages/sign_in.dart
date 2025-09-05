@@ -1,4 +1,5 @@
 import 'package:financetreckerapp/features/auth/presentation/cubit/cubit.dart';
+import 'package:financetreckerapp/features/auth/presentation/pages/reset.dart';
 import 'package:financetreckerapp/features/auth/presentation/pages/sign_up.dart';
 import 'package:financetreckerapp/features/expense/presentation/pages/home.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Sign In")),
+      // appBar: AppBar(title: const Text("Sign In")),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -40,12 +41,21 @@ class _SignInPageState extends State<SignInPage> {
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
                 );
-                // 🔹 Bu joyda Home page ga navigate qilish mumkin
               }
             },
             builder: (context, state) {
+              // final visibility = context.watch<AuthCubit>().visiblity;
+
               return Column(
                 children: [
+                  SizedBox(height: 35),
+
+                  Text(
+                    "Sign In",
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+                  ),
+                  Spacer(),
+
                   /// EMAIL
                   TextFormField(
                     controller: _emailCtrl,
@@ -68,11 +78,20 @@ class _SignInPageState extends State<SignInPage> {
                   /// PASSWORD
                   TextFormField(
                     controller: _passwordCtrl,
-
-                    decoration: const InputDecoration(
-                      suffixIcon: Icon(Icons.visibility),
+                    obscureText: context.watch<AuthCubit>().visiblity,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          context.read<AuthCubit>().visibly();
+                        },
+                        icon: Icon(
+                          context.watch<AuthCubit>().visiblity
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                      ),
                       labelText: "Password",
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                     ),
                     // obscureText: true,
                     validator: (value) {
@@ -117,10 +136,20 @@ class _SignInPageState extends State<SignInPage> {
 
                   const Spacer(),
 
-                  /// FORGOT PASSWORD TEXT
-                  const Text(
-                    "Kodini esdan chiqardingmi?",
-                    style: TextStyle(color: Colors.grey),
+                /// FORGOT PASSWORD TEXT
+                  GestureDetector(
+                    child: const Text(
+                      "Kodini esdan chiqardingmi?",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ForgotPasswordPage(),
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(height: 30),
                 ],

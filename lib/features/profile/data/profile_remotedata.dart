@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:financetreckerapp/features/profile/domain/user.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
 
@@ -15,5 +15,9 @@ class ProfileRemotedata {
       return UserModel(uid: user.uid, email: user.email ?? "");
     }
     return null;
+  }
+
+  Future logOut() async {
+    await _auth.signOut();
   }
 }

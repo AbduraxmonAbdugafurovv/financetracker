@@ -1,10 +1,11 @@
 import 'package:financetreckerapp/features/auth/data/auth_data_source.dart';
 import 'package:financetreckerapp/features/auth/presentation/cubit/state.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository repository;
-  AuthCubit(this.repository) : super(AuthInitial());
+  AuthCubit(this.repository) : super(AuthUnauthenticated());
 
   Future<void> signIn(String email, String password) async {
     emit(AuthLoading());
@@ -31,7 +32,15 @@ class AuthCubit extends Cubit<AuthState> {
     if (user != null) {
       emit(AuthAuthenticated(user));
     } else {
-      emit(AuthUnauthenticated());
+      emit(AuthInitial());
     }
+  }
+
+  bool visiblity = true;
+  visibly() {
+    // visiblity != visiblity;
+    visiblity = !visiblity;
+    print(visiblity);
+    emit(AuthInitial());
   }
 }

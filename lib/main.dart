@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:financetreckerapp/features/auth/data/auth_data_source.dart';
 import 'package:financetreckerapp/features/auth/presentation/cubit/cubit.dart';
 import 'package:financetreckerapp/features/auth/presentation/pages/sign_in.dart';
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
           create: (_) =>
               AuthCubit(AuthRepository(fb.FirebaseAuth.instance))..checkAuth(),
         ),
-        BlocProvider(create: (_) => ExpenseCubit(ExpenseRemoteDataSource())),
+        BlocProvider(create: (_) => ExpenseCubit(ExpenseRemoteDataSource())..loadExpenses()),
         BlocProvider(
           create: (_) =>
               ProfileCubit(ProfileRemotedata(fb.FirebaseAuth.instance))..getUser(),

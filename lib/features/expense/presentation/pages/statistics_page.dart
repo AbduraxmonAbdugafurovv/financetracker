@@ -1,9 +1,9 @@
 import 'package:financetreckerapp/features/expense/domain/expense.dart';
 import 'package:financetreckerapp/features/expense/presentation/cubit/expence_cubit.dart';
 import 'package:financetreckerapp/features/expense/presentation/cubit/expence_state.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({super.key});
@@ -16,30 +16,99 @@ class StatisticsPage extends StatelessWidget {
         builder: (context, state) {
           if (state is ExpenseLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is ExpenseLoaded) {
-            if (state.expenses.isEmpty) {
+          } else if (state is ExpenseLoaded || state is ExpensesLoaded) {
+            final expenses = state is ExpenseLoaded
+                ? state.expenses
+                : (state as ExpensesLoaded).expenses;
+
+            if (expenses.isEmpty) {
               return const Center(child: Text("Xarajatlar mavjud emas"));
             }
 
-            final data = _groupByCategory(state.expenses);
+            //  1. Oylik jami
+            final total = expenses.fold<double>(
+                0, (sum, e) => sum + e.amount);
 
-            return Column(
-              children: [
-                const SizedBox(height: 20),
-                Expanded(
-                  child: PieChart(
-                    PieChartData(
-                      sections: data.entries.map((entry) {
-                        return PieChartSectionData(
-                          value: entry.value,
-                          title: "${entry.key}\n${entry.value.toInt()} so'm",
-                          radius: 80,
-                        );
-                      }).toList(),
+            //  2. Kategoriya bo‘yicha PieChart
+            final categoryData = _groupByCategory(expenses);
+
+            //  3. Oxirgi 30 kun line chart
+            final spots = state is ExpensesLoaded ? state.spots : <FlSpot>[];
+
+            //  4. Eng ko‘p kategoriya
+            final topCategory = categoryData.entries.isNotEmpty
+                ? categoryData.entries.reduce((a, b) =>
+                    a.value > b.value ? a : b)
+                : null;
+
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Oylik jami
+                    Text(
+                      "Oylik jami: ${total.toStringAsFixed(0)} so'm",
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                  ),
+                    const SizedBox(height: 20),
+
+                    // Pie Chart
+                    SizedBox(
+                      height: 250,
+                      child: PieChart(
+                        PieChartData(
+                          sections: categoryData.entries.map((entry) {
+                            return PieChartSectionData(
+                              value: entry.value,
+                              title:
+                                  "${entry.key}\n${entry.value.toInt()} so'm",
+                              radius: 80,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Line Chart
+                    if (spots.isNotEmpty) ...[
+                      const Text(
+                        "Oxirgi 30 kun grafigi",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 250,
+                        child: LineChart(
+                          LineChartData(
+                            lineBarsData: [
+                              LineChartBarData(
+                                spots: spots,
+                                isCurved: true,
+                                barWidth: 3,
+                                belowBarData: BarAreaData(show: true),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+
+                    // Eng ko‘p kategoriya
+                    if (topCategory != null)
+                      Text(
+                        "Eng ko‘p xarajat qilingan kategoriya: "
+                        "${topCategory.key} (${topCategory.value.toInt()} so'm)",
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                  ],
                 ),
-              ],
+              ),
             );
           } else if (state is ExpenseError) {
             return Center(child: Text("Xato: ${state.e}"));
@@ -58,4 +127,3 @@ class StatisticsPage extends StatelessWidget {
     return result;
   }
 }
-

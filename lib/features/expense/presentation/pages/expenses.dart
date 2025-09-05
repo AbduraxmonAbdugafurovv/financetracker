@@ -61,83 +61,99 @@ class ExpensesPage extends StatelessWidget {
       ),
     );
   }
+void _showExpenseDialog(BuildContext context, {Expense? expense}) {
+  final amountController =
+      TextEditingController(text: expense?.amount.toString() ?? "");
+  final noteController = TextEditingController(text: expense?.note ?? "");
+  String category = expense?.category ?? "Oziq-ovqat";
 
-  void _showExpenseDialog(BuildContext context, {Expense? expense}) {
-    final amountController =
-        TextEditingController(text: expense?.amount.toString() ?? "");
-    final noteController = TextEditingController(text: expense?.note ?? "");
-    String category = expense?.category ?? "Oziq-ovqat";
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(expense == null ? "Xarajat qo'shish" : "Xarajatni tahrirlash"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: amountController,
-              decoration: const InputDecoration(labelText: "Summasi"),
-              keyboardType: TextInputType.number,
-            ),
-            TextField(
-              controller: noteController,
-              decoration: const InputDecoration(labelText: "Izoh"),
-            ),
-            DropdownButton<String>(
-              value: category,
-              onChanged: (value) {
-                if (value != null) {
-                  category = value;
-                }
-              },
-              items: const [
-                DropdownMenuItem(value: "Oziq-ovqat", child: Text("Oziq-ovqat")),
-                DropdownMenuItem(value: "Transport", child: Text("Transport")),
-                DropdownMenuItem(value: "Ko'ngilochar", child: Text("Ko'ngilochar")),
-                DropdownMenuItem(value: "Kommunal", child: Text("Kommunal")),
-                DropdownMenuItem(value: "Boshqa", child: Text("Boshqa")),
+  showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: Text(expense == null
+                ? "Xarajat qo'shish"
+                : "Xarajatni tahrirlash"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: amountController,
+                  decoration: const InputDecoration(labelText: "Summasi"),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: noteController,
+                  decoration: const InputDecoration(labelText: "Izoh"),
+                ),
+                DropdownButton<String>(
+                  value: category,
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        category = value;
+                      });
+                    }
+                  },
+                  items: const [
+                    DropdownMenuItem(
+                        value: "Oziq-ovqat", child: Text("Oziq-ovqat")),
+                    DropdownMenuItem(
+                        value: "Transport", child: Text("Transport")),
+                    DropdownMenuItem(
+                        value: "Ko'ngilochar", child: Text("Ko'ngilochar")),
+                    DropdownMenuItem(
+                        value: "Kommunal", child: Text("Kommunal")),
+                    DropdownMenuItem(value: "Boshqa", child: Text("Boshqa")),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Bekor qilish"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final amount = double.tryParse(amountController.text) ?? 0.0;
-              if (expense == null) {
-                // Yangi qoshish
-                context.read<ExpenseCubit>().addExpense(
-                      Expense(
-                        id: DateTime.now().millisecondsSinceEpoch.toString(),
-                        amount: amount,
-                        category: category,
-                        date: DateTime.now(),
-                        note: noteController.text,
-                      ),
-                    );
-              } else {
-                // edit
-                context.read<ExpenseCubit>().updateExpense(
-                      Expense(
-                        id: expense.id,
-                        amount: amount,
-                        category: category,
-                        date: expense.date,
-                        note: noteController.text,
-                      ),
-                    );
-              }
-              Navigator.pop(context);
-            },
-            child: const Text("Saqlash"),
-          ),
-        ],
-      ),
-    );
-  }
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Bekor qilish"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  final amount =
+                      double.tryParse(amountController.text) ?? 0.0;
+                  if (expense == null) {
+                    // Yangi qo‘shish
+                    context.read<ExpenseCubit>().addExpense(
+                          Expense(
+                            id: DateTime.now()
+                                .millisecondsSinceEpoch
+                                .toString(),
+                            amount: amount,
+                            category: category,
+                            date: DateTime.now(),
+                            note: noteController.text,
+                          ),
+                        );
+                  } else {
+                    // Tahrirlash
+                    context.read<ExpenseCubit>().updateExpense(
+                          Expense(
+                            id: expense.id,
+                            amount: amount,
+                            category: category,
+                            date: expense.date,
+                            note: noteController.text,
+                          ),
+                        );
+                  }
+                  Navigator.pop(context);
+                },
+                child: const Text("Saqlash"),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
 }

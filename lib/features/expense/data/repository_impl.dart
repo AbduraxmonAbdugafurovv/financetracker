@@ -34,16 +34,16 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
       note: expense.note,
     );
 
-    if (await _hasInternet()) {
-      await remote.addExpense(model);
-    }
+    // if (await _hasInternet()) {
+    //   await remote.addExpense(model);
+    // }
     await local.addExpense(model);
   }
 
   @override
   Future<List<Expense>> getExpenses() async {
     if (await _hasInternet()) {
-      final remoteExpenses = await remote.getExpenses();
+      final remoteExpenses = await remote.getEx();
       await local.cacheExpenses(remoteExpenses);
       return remoteExpenses;
     } else {
