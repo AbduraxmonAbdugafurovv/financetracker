@@ -39,4 +39,8 @@
 ### Profile
 <img src="images/profile.png" width="320"/>
 
+## 📲 APK yuklab olish
+👉 [Download APK](https://drive.google.com/file/d/11hXm-PqEFD0cY8r7nN02arqy0Ic5uG-6/view?usp=drive_link)
+
+
 
