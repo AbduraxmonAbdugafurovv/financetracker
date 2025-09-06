@@ -1,16 +1,34 @@
-# financetreckerapp
+#!/bin/bash
+echo "=========================================="
+echo "         💰 Expense Tracker App           "
+echo "=========================================="
 
-A new Flutter project.
+echo ""
+echo "📌 Loyiha tavsifi"
+echo "Expense Tracker — bu Flutter’da yozilgan mobil ilova bo‘lib,"
+echo "kundalik xarajatlarni yozib borish, oylik byudjetni nazorat qilish"
+echo "va kunlik bildirishnomalar orqali eslatmalar yuborishni qo‘llab-quvvatlaydi."
+echo "Shuningdek, oxirgi 30 kunlik xarajatlar grafigini ko‘rish mumkin."
 
-## Getting Started
+echo ""
+echo "⚙️ Installation guide"
+echo "1. git clone https://github.com/username/expense-tracker.git"
+echo "2. cd expense-tracker"
+echo "3. flutter pub get"
+echo "4. Firebase fayllarini qo‘shing (google-services.json / GoogleService-Info.plist)"
+echo "5. flutter run"
 
-This project is a starting point for a Flutter application.
+echo ""
+echo "✨ Features"
+echo "- Xarajat qo‘shish (summa, kategoriya, sana, izoh bilan)"
+echo "- Xarajatlar ro‘yxatini ko‘rish va filtrlash"
+echo "- Oxirgi 30 kunlik xarajatlar grafigi"
+echo "- Kunlik eslatma bildirishnomasi"
+echo "- Oylik byudjet chegarasi oshganda ogohlantirish"
+echo "- Firebase orqali avtorizatsiya (login/signup)"
+echo "- Hive orqali offline rejimda ishlash"
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+echo ""
+echo "=========================================="
+echo "     ✅ README qisqacha terminal ko‘rinishi"
+echo "=========================================="
