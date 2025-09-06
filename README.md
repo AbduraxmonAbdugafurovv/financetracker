@@ -26,7 +26,25 @@ echo "- Oylik byudjet chegarasi oshganda ogohlantirish"
 echo "- Firebase orqali avtorizatsiya (login/signup)"
 echo "- Hive orqali offline rejimda ishlash"
 
-echo ""
-echo "=========================================="
-echo "     ✅ README qisqacha terminal ko‘rinishi"
-echo "=========================================="
+### Sign In
+<img src="images/signin.png" width="320"/>
+
+### Sign Up
+<img src="images/signup.png" width="320"/>
+
+### Expenses
+<img src="images/expenses.png" width="320"/>
+
+### Expenses category
+<img src="images/categoryexpenses.png" width="320"/>
+
+### Add and edit category
+<img src="images/addandeditexpenses.png" width="320"/>
+
+### Statistics
+<img src="images/statistics.png" width="320"/>
+
+### Profile
+<img src="images/profile.png" width="320"/>
+
+
