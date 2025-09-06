@@ -1,30 +1,22 @@
-#!/bin/bash
-echo "=========================================="
-echo "         💰 Expense Tracker App           "
-echo "=========================================="
 
-echo ""
-echo "📌 Loyiha tavsifi"
-echo "Expense Tracker — bu Flutter’da yozilgan mobil ilova bo‘lib,"
-echo "kundalik xarajatlarni yozib borish, oylik byudjetni nazorat qilish"
-echo "Shuningdek, oxirgi 30 kunlik xarajatlar grafigini ko‘rish mumkin."
+"=========================================="
+ "         💰 Expense Tracker App           "
+ "=========================================="
 
-echo ""
-echo "⚙️ Installation guide"
-echo "1. git clone https://github.com/username/expense-tracker.git"
-echo "2. cd expense-tracker"
-echo "3. flutter pub get"
-echo "4. Firebase fayllarini qo‘shing (google-services.json / GoogleService-Info.plist)"
-echo "5. flutter run"
+ ""
+ "📌 Loyiha tavsifi"
+ "Expense Tracker — bu Flutter’da yozilgan mobil ilova bo‘lib,"
+ "kundalik xarajatlarni yozib borish, oylik byudjetni nazorat qilish"
+ "Shuningdek, oxirgi 30 kunlik xarajatlar grafigini ko‘rish mumkin."
 
-echo ""
-echo "✨ Features"
-echo "- Xarajat qo‘shish (summa, kategoriya, sana, izoh bilan)"
-echo "- Xarajatlar ro‘yxatini ko‘rish va filtrlash"
-echo "- Oxirgi 30 kunlik xarajatlar grafigi"
-echo "- Oylik byudjet chegarasi oshganda ogohlantirish"
-echo "- Firebase orqali avtorizatsiya (login/signup)"
-echo "- Hive orqali offline rejimda ishlash"
+
+ "✨ Features"
+ "- Xarajat qo‘shish (summa, kategoriya, sana, izoh bilan)"
+ "- Xarajatlar ro‘yxatini ko‘rish va filtrlash"
+ "- Oxirgi 30 kunlik xarajatlar grafigi"
+ "- Oylik byudjet chegarasi oshganda ogohlantirish"
+ "- Firebase orqali avtorizatsiya (login/signup)"
+ "- Hive orqali offline rejimda ishlash"
 
 ### Sign In
 <img src="images/signin.png" width="320"/>
