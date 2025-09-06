@@ -11,10 +11,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     print("LOADING.....");
     emit(ProfileLoadingState());
     user = remotedata.getCurrentUser();
+    print("GET USER ---$user");
     if (user != null) {
+      print("GET USER ---$user Loaded state");
       print(user);
       emit(ProfileLoadedState(user!));
     } else {
+      print("initial state ---");
       emit(ProfileInitialState());
     }
   }

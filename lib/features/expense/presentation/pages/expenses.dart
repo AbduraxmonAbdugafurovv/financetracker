@@ -133,7 +133,7 @@ class ExpensesPage extends StatelessWidget {
                     final amount =
                         double.tryParse(amountController.text) ?? 0.0;
                     if (expense == null) {
-                      DateTime date = DateTime(2025,8,2);
+                      DateTime date = DateTime.now();
                       // Yangi qo‘shish
                       context.read<ExpenseCubit>().addExpense(
                         Expense(

@@ -4,6 +4,9 @@ import 'package:financetreckerapp/features/auth/presentation/pages/sign_in.dart'
 import 'package:financetreckerapp/features/expense/data/expense_data_source.dart';
 import 'package:financetreckerapp/features/expense/data/expense_model.dart';
 import 'package:financetreckerapp/features/expense/presentation/cubit/expence_cubit.dart';
+import 'package:financetreckerapp/features/notifications/data/notification_repositoryiml.dart';
+import 'package:financetreckerapp/features/notifications/domain/notification_repository.dart';
+import 'package:financetreckerapp/features/notifications/presentation/cubit/notification_cubit.dart';
 import 'package:financetreckerapp/features/profile/data/profile_remotedata.dart';
 import 'package:financetreckerapp/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:financetreckerapp/features/statistics/data/statistic_remote_data.dart';
@@ -12,6 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'firebase_options.dart';
 
@@ -24,7 +28,7 @@ Future<void> main() async {
 
   Hive.registerAdapter(ExpenseModelAdapter());
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -42,11 +46,15 @@ class MyApp extends StatelessWidget {
           create: (_) =>
               ExpenseCubit(ExpenseRemoteDataSource())..loadExpenses(),
         ),
-        BlocProvider(create: (_) => StatisticCubit(StatisticRemoteDataSource())..loadLast30DaysExpenses()),
+        BlocProvider(
+          create: (_) =>
+              StatisticCubit(StatisticRemoteDataSource())
+                ..loadLast30DaysExpenses(),
+        ),
         BlocProvider(
           create: (_) =>
               ProfileCubit(ProfileRemotedata(fb.FirebaseAuth.instance))
-                ..getUser(),
+               
         ),
       ],
       child: MaterialApp(

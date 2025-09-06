@@ -1,4 +1,3 @@
-
 import 'package:financetreckerapp/features/statistics/domain/expense.dart';
 import 'package:financetreckerapp/features/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:financetreckerapp/features/statistics/presentation/cubit/statistic_state.dart';
@@ -6,8 +5,21 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class StatisticsPage extends StatelessWidget {
+class StatisticsPage extends StatefulWidget {
   const StatisticsPage({super.key});
+
+  @override
+  State<StatisticsPage> createState() => _StatisticsPageState();
+}
+
+class _StatisticsPageState extends State<StatisticsPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    context.read<StatisticCubit>().loadExpenses();
+    context.read<StatisticCubit>().loadLast30DaysExpenses();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +45,9 @@ class StatisticsPage extends StatelessWidget {
             final categoryData = _groupByCategory(expenses);
 
             //  3. Oxirgi 30 kun line chart
-            final spots = state is StatisticSpotLoaded ? state.spots : <FlSpot>[];
+            final spots = state is StatisticSpotLoaded
+                ? state.spots
+                : <FlSpot>[];
             print("SPOTS __ $spots");
             print("state spot --- ${state}");
 

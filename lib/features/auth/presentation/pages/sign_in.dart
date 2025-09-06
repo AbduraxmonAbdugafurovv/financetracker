@@ -45,115 +45,120 @@ class _SignInPageState extends State<SignInPage> {
             },
             builder: (context, state) {
               // final visibility = context.watch<AuthCubit>().visiblity;
+              if (state is AuthInitial) {
+                return Column(
+                  children: [
+                    SizedBox(height: 35),
 
-              return Column(
-                children: [
-                  SizedBox(height: 35),
-
-                  Text(
-                    "Sign In",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                  ),
-                  Spacer(),
-
-                  /// EMAIL
-                  TextFormField(
-                    controller: _emailCtrl,
-                    decoration: const InputDecoration(
-                      labelText: "Email",
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Email kiriting";
-                      }
-                      if (!value.contains("@")) {
-                        return "Email noto‘g‘ri formatda";
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-
-                  /// PASSWORD
-                  TextFormField(
-                    controller: _passwordCtrl,
-                    obscureText: context.watch<AuthCubit>().visiblity,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          context.read<AuthCubit>().visibly();
-                        },
-                        icon: Icon(
-                          context.watch<AuthCubit>().visiblity
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
+                    Text(
+                      "Sign In",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w500,
                       ),
-                      labelText: "Password",
-                      border: const OutlineInputBorder(),
                     ),
-                    // obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Parol kiriting";
-                      }
-                      if (value.length < 6) {
-                        return "Parol kamida 6 ta belgidan iborat bo‘lishi kerak";
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
+                    Spacer(),
 
-                  /// SIGN IN BUTTON
-                  if (state is AuthLoading)
-                    const CircularProgressIndicator()
-                  else
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          context.read<AuthCubit>().signIn(
-                            _emailCtrl.text.trim(),
-                            _passwordCtrl.text.trim(),
-                          );
+                    /// EMAIL
+                    TextFormField(
+                      controller: _emailCtrl,
+                      decoration: const InputDecoration(
+                        labelText: "Email",
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Email kiriting";
                         }
+                        if (!value.contains("@")) {
+                          return "Email noto‘g‘ri formatda";
+                        }
+                        return null;
                       },
-                      child: const Text("Sign In"),
                     ),
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 16),
 
-                  /// REGISTER BUTTON
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
-                      );
-                    },
-                    child: const Text("Ro‘yxatdan o‘tish"),
-                  ),
-
-                  const Spacer(),
-
-                /// FORGOT PASSWORD TEXT
-                  GestureDetector(
-                    child: const Text(
-                      "Kodini esdan chiqardingmi?",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ForgotPasswordPage(),
+                    /// PASSWORD
+                    TextFormField(
+                      controller: _passwordCtrl,
+                      obscureText: context.watch<AuthCubit>().visiblity,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            context.read<AuthCubit>().visibly();
+                          },
+                          icon: Icon(
+                            context.watch<AuthCubit>().visiblity
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
                         ),
-                      );
-                    },
-                  ),
-                  SizedBox(height: 30),
-                ],
-              );
+                        labelText: "Password",
+                        border: const OutlineInputBorder(),
+                      ),
+                      // obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Parol kiriting";
+                        }
+                        if (value.length < 6) {
+                          return "Parol kamida 6 ta belgidan iborat bo‘lishi kerak";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+
+                    /// SIGN IN BUTTON
+                    if (state is AuthLoading)
+                      const CircularProgressIndicator()
+                    else
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<AuthCubit>().signIn(
+                              _emailCtrl.text.trim(),
+                              _passwordCtrl.text.trim(),
+                            );
+                          }
+                        },
+                        child: const Text("Sign In"),
+                      ),
+                    const SizedBox(height: 20),
+
+                    /// REGISTER BUTTON
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignUpPage()),
+                        );
+                      },
+                      child: const Text("Ro‘yxatdan o‘tish"),
+                    ),
+
+                    const Spacer(),
+
+                    /// FORGOT PASSWORD TEXT
+                    GestureDetector(
+                      child: const Text(
+                        "Kodini esdan chiqardingmi?",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordPage(),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 30),
+                  ],
+                );
+              }
+              return Center(child: CircularProgressIndicator.adaptive(),);
             },
           ),
         ),
